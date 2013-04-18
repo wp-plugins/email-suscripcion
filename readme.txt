@@ -1,5 +1,5 @@
 === E-mailing Subscription ===
-Contributors: Sebastián Orellana.
+Contributors: seballero
 Tags: subscription, e-mailing, mailing, mail, users
 Requires at least: 3.4
 Tested up to: 3.4.2
