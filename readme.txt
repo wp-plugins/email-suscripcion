@@ -1,4 +1,4 @@
-=== Email Suscripcion ===
+=== E-mailing Subscription ===
 Contributors: Sebastián Orellana.
 Tags: subscription, e-mailing, mailing, mail, users
 Requires at least: 3.4
