@@ -1,5 +1,5 @@
 === Email Suscripcion ===
-Contributors: Swashata Ghosh
+Contributors: Sebastián Orellana.
 Tags: subscription, e-mailing, mailing, mail, users
 Requires at least: 3.4
 Tested up to: 3.4.2
