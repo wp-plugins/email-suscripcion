@@ -25,7 +25,7 @@ Requirements:
 == Installation ==
 
 1. Install and activate the plugin
-2. Add the form function in your template  <?php if(function_exists('emailing_form')) { emailing_form();} ?>
+2. Add the form function in your template <code><?php if(function_exists('emailing_form')) { emailing_form();} ?></code>
 4. [OPTIONAL] Apply custom styles
 5. YOU'RE DONE!
 
@@ -33,7 +33,7 @@ Requirements:
 
 = I can add the form "subscription" Anywhere on the Template? =
 
-Yes, using the function <?php if(function_exists('emailing_form')) { emailing_form();} ?>.
+Yes, using the function <code><?php if(function_exists('emailing_form')) { emailing_form();} ?>.</code>
 
 == Screenshots ==
 
