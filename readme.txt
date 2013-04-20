@@ -1,6 +1,6 @@
-=== E-mailing Subscription ===
+=== Emailing Subscription ===
 Contributors: seballero
-Tags: subscription, e-mailing, mailing, mail, users
+Tags: subscription, e-mailing, mailing, emailing, mail, users
 Requires at least: 3.4
 Tested up to: 3.4.2
 Stable tag: 1.1
