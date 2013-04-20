@@ -1,11 +1,13 @@
 <?php 
 /*
-Plugin Name: Email Suscripción
+Plugin Name: Emailing Subscription
 Plugin URI: http://www.seballero.com
-Description: Plugin para suscribirse a e-mailing
+Description: A simple WordPress plugin for e-mailing subscription list.
 Author: Sebastian Orellana
-Version: 0.1
+Version: 1.1
 Author URI: http://www.seballero.com 
+Text Domain: emailing-list
+Domain Path: /lang
 */
 
 
@@ -13,9 +15,10 @@ Author URI: http://www.seballero.com
 /*---------------------------------------------------
 register settings
 ----------------------------------------------------*/
+load_plugin_textdomain('emailing-list', false, basename( dirname( __FILE__ ) ) . '/lang' );
+    
 
 function theme_settings_init(){
-
     global $plugin_page;
     if ( isset($_POST['exportar_xls']) && $plugin_page == 'emailing_list' ) {
     $hoy = date("Y-m-d");
@@ -23,18 +26,10 @@ function theme_settings_init(){
     header("Expires: 0");
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     header("content-disposition: attachment;filename=emailing-$hoy.xls");
-    ?>
-    <html>
-    <head>
-    <meta http-equiv=”Content-Type” content=”text/html; charset=utf-8″ />
-    <title>Lisa de e-malining</title>
-    </head>
-    <body>
-    <?php
     echo "<table>
     <thead>    
     <tr>
-    <th>Correo</th>
+    <th>".__( 'Emailing List' .'' )."</th>
     </tr>
     </thead>
     ";
@@ -97,15 +92,15 @@ function emailing_install_data($emaling) {
    global $wpdb;
    $table_name = $wpdb->prefix . "emailinglist";
    $wpdb->insert( $table_name, array( 'time' => current_time('mysql'), 'email' => $emaling ) );
-   echo '<span class="mail-success">E-mail suscrito exitosamente</span>';
+   echo '<span class="mail-success">'.__( 'Your email was subscribed successfully.', 'emailing-list' ).'</span>';
    
 }
 
 function emailing_form() {
 ?>
 <form name="emailing" action="" method="post"  class="clear">
-    <input name="email" id="email" type="email" class="text" placeholder="Ingresa tu email aquí"/>
-    <input type="submit" name="emailing-send" class="button" value="Suscribir"/>
+    <input name="email" id="email" type="email" class="text" placeholder="<?php _e( 'Email Address', 'emailing-list' ) ?>"/>
+    <input type="submit" name="emailing-send" class="button" value="<?php _e( 'Subscribe', 'emailing-list' ) ?>"/>
 </form>
 <?php
 
@@ -113,7 +108,7 @@ if (isset($_POST['emailing-send'])) {
          if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
              emailing_install_data($_POST['email']);
          }else{
-             echo '<span class="mail-error">El E-mail ingresado no es válido</span>';
+             echo '<span class="mail-error">'.__( 'Email address seems invalid.', 'emailing-list' ).'</span>';
          } 
 }
 else {
@@ -359,9 +354,9 @@ Theme Emaling Suscripción
 function emailing() {?>
          <div class="wrap">
          <div id="icon-users" class="icon32"></div>
-         <h2><?php _e( ' Listado para E-mailing' ) //your admin panel title ?></h2><br/><br/>
+         <h2><?php _e( 'E-mailing List', 'emailing-list' ) ?></h2><br/><br/>
          <form method="post" id="download_form" action="">
-            <input type="submit" name="exportar_xls" class="button-primary" value="<?php _e('Exportar Tabla a Excel'); ?>" />
+            <input type="submit" name="exportar_xls" class="button-primary" value="<?php _e('Export to Excel', 'emailing-list'); ?>" />
     </form><br/><br/>
          <?php
 global $wpdb;
@@ -401,12 +396,12 @@ if($pagination_count > 0) {
         echo "<table class='widefat'>
         <thead>    
         <tr>
-        <th>Correo</th>
+        <th>".__( 'email', 'emailing-list' )."</th>
         </tr>
         </thead>
         <tfoot>    
         <tr>
-        <th>Correo</th>
+        <th>".__( 'email', 'emailing-list' )."</th>
         </tr>
         </tfoot>";
         foreach($result as $r)

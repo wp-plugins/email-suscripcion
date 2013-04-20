@@ -3,7 +3,7 @@ Contributors: seballero
 Tags: subscription, e-mailing, mailing, mail, users
 Requires at least: 3.4
 Tested up to: 3.4.2
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,10 @@ The mailing list in the admin page (http://you-site.com/wp-admin/admin.php?page=
 
 Requirements:  
 * WordPress 3.4 or later  
+
+= Translators =
+
+* Spanish (es_ES) - [Sebastián Orellana](http://www.seballero.com)
 
 == Installation ==
 
@@ -41,6 +45,9 @@ Yes, using the function <code><?php if(function_exists('emailing_form')) { email
 
 == Changelog ==
 
-= 0.1 =
-* This is the first version of the plugin.
+= 1.1 =
+* Added Internationalization. 
+* Translation for: Spanish, es_ES
 
+= 1.0 =
+* This is the first version of the plugin.
