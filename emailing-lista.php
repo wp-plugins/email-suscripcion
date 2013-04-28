@@ -55,7 +55,7 @@ function theme_settings_init(){
 add settings page to menu
 ----------------------------------------------------*/
 function add_settings_page() {
-add_menu_page( __( 'Emailing List' .'' ), __( 'Emailing List' .'' ),'administrator',  'emailing_list', 'emailing');
+add_menu_page( __( 'Emailing List' .'' ), __( 'Emailing List' .'' ),'edit_posts',  'emailing_list', 'emailing');
 }
  
 /*---------------------------------------------------
@@ -365,7 +365,7 @@ if($pagination_count > 0) {
     //get current page
     $this_page = ($_GET['p'] && $_GET['p'] > 0)? (int) $_GET['p'] : 1;
     //Records per page
-    $per_page = 15;
+    $per_page = 20;
     //Total Page
     $total_page = ceil($pagination_count/$per_page);
  
@@ -410,7 +410,15 @@ if($pagination_count > 0) {
                 echo "<td>".$r->email."</td>";
                 echo "</tr></tbody>";
         }
-        echo "</table></div>";
+        echo "</table></div>";?>
+        <div class="tablenav">
+            <div class="tablenav-pages">
+                <span class="displaying-num"><?php echo $pagination_count; ?> items</span>
+                <?php $pag->show(); ?>
+            </div>
+        </div> 
+        </div> 
+        <?php
         }
 
 }
