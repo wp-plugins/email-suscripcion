@@ -1,7 +1,7 @@
 <?php 
 /*
 Plugin Name: Emailing Subscription
-Plugin URI: http://www.seballero.com
+Plugin URI: http://www.seballero.com/blog/plugin-para-wordpress-e-mailing-subscription/
 Description: A simple WordPress plugin for e-mailing subscription list.
 Author: Sebastian Orellana
 Version: 1.2
