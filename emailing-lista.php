@@ -4,7 +4,7 @@ Plugin Name: Emailing Subscription
 Plugin URI: http://www.seballero.com
 Description: A simple WordPress plugin for e-mailing subscription list.
 Author: Sebastian Orellana
-Version: 1.1
+Version: 1.2
 Author URI: http://www.seballero.com 
 Text Domain: emailing-list
 Domain Path: /lang
@@ -357,7 +357,21 @@ function emailing() {?>
          <h2><?php _e( 'E-mailing List', 'emailing-list' ) ?></h2><br/><br/>
          <form method="post" id="download_form" action="">
             <input type="submit" name="exportar_xls" class="button-primary" value="<?php _e('Export to Excel', 'emailing-list'); ?>" />
-    </form><br/><br/>
+         </form><br/>
+         <form method="get" id="filtrar" action="">
+            <label><?php _e('Show per page', 'emailing-list'); ?></label>
+            <input type="hidden" name="page" value="emailing_list" />
+            <select name="perpage">
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="150">150</option>
+                <option value="999999"><?php _e('All', 'emailing-list'); ?></option>
+            </select>
+            <input type="submit" class="button-primary" value="<?php _e('Show', 'emailing-list'); ?>" />
+         </form>
+         
+         <br/><br/>
          <?php
 global $wpdb;
 $pagination_count = $wpdb->get_var($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."emailinglist GROUP BY email"));
@@ -365,7 +379,12 @@ if($pagination_count > 0) {
     //get current page
     $this_page = ($_GET['p'] && $_GET['p'] > 0)? (int) $_GET['p'] : 1;
     //Records per page
-    $per_page = 20;
+    $cantidad = $_GET['perpage'];
+    if($cantidad){
+        $per_page = $cantidad;
+    }else{
+        $per_page = 20;
+    }
     //Total Page
     $total_page = ceil($pagination_count/$per_page);
  
@@ -374,7 +393,13 @@ if($pagination_count > 0) {
     //Set the pagination variable values
     $pag->Items($pagination_count);
     $pag->limit($per_page);
-    $pag->target("admin.php?page=emailing_list");
+    if($cantidad){
+        $pag->target("admin.php?page=emailing_list&perpage=".$cantidad);
+    }else{
+        $pag->target("admin.php?page=emailing_list");
+    }
+    
+    
     $pag->currentPage($this_page);
  
     //Done with the pagination
@@ -410,7 +435,7 @@ if($pagination_count > 0) {
                 echo "<td>".$r->email."</td>";
                 echo "</tr></tbody>";
         }
-        echo "</table></div>";?>
+        echo "</table>";?>
         <div class="tablenav">
             <div class="tablenav-pages">
                 <span class="displaying-num"><?php echo $pagination_count; ?> items</span>
@@ -419,6 +444,8 @@ if($pagination_count > 0) {
         </div> 
         </div> 
         <?php
+        }else{
+            echo '<h3>'.__('This Information is empty', 'emailing-list').'</h3>';
         }
 
 }

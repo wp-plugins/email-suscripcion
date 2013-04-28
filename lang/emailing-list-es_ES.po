@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Emailing Subscription v0.1\n"
+"Project-Id-Version: Emailing Subscription v1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-04-20 02:45:05+0000\n"
+"PO-Revision-Date: 2013-04-28 22:40:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,29 +20,29 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: emailing-lista.php:31
-#: emailing-lista.php:57
+#: emailing-lista.php:32
+#: emailing-lista.php:58
 #@ default
 msgid "Emailing List"
 msgstr ""
 
-#: emailing-lista.php:102
+#: emailing-lista.php:103
 #@ emailing-list
 msgid "Subscribe"
 msgstr "Suscribirse"
 
-#: emailing-lista.php:356
+#: emailing-lista.php:357
 #@ emailing-list
 msgid "E-mailing List"
 msgstr "Lista de correos"
 
-#: emailing-lista.php:358
+#: emailing-lista.php:359
 #@ emailing-list
 msgid "Export to Excel"
 msgstr "Exportar a Excel"
 
-#: emailing-lista.php:398
-#: emailing-lista.php:403
+#: emailing-lista.php:424
+#: emailing-lista.php:429
 #@ emailing-list
 msgid "email"
 msgstr "Correo"
@@ -60,23 +60,17 @@ msgstr ""
 msgid "Sebastian Orellana"
 msgstr ""
 
-#. translators: plugin header field 'Version'
-#: emailing-lista.php:0
-#@ emailing-list
-msgid "0.1"
-msgstr ""
-
-#: emailing-lista.php:101
+#: emailing-lista.php:102
 #@ emailing-list
 msgid "Email Address"
 msgstr "Ingrese su correo"
 
-#: emailing-lista.php:110
+#: emailing-lista.php:111
 #@ emailing-list
 msgid "Email address seems invalid."
 msgstr "Dirección de correo inválida"
 
-#: emailing-lista.php:94
+#: emailing-lista.php:95
 #@ emailing-list
 msgid "Your email was subscribed successfully."
 msgstr "Correo suscrito correctamente"
@@ -92,4 +86,30 @@ msgstr "Suscripción a Emailing"
 #@ emailing-list
 msgid "A simple WordPress plugin for e-mailing subscription list."
 msgstr "Simple plugin para hacer suscripción a emailing"
+
+#. translators: plugin header field 'Version'
+#: emailing-lista.php:0
+#@ emailing-list
+msgid "1.1"
+msgstr ""
+
+#: emailing-lista.php:362
+#@ emailing-list
+msgid "Show per page"
+msgstr "Mostrar por página"
+
+#: emailing-lista.php:369
+#@ emailing-list
+msgid "All"
+msgstr "Todos"
+
+#: emailing-lista.php:371
+#@ emailing-list
+msgid "Show"
+msgstr "Mostrar"
+
+#: emailing-lista.php:448
+#@ emailing-list
+msgid "This Information is empty"
+msgstr "Esta información está vacía"
 

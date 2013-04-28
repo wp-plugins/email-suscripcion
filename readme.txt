@@ -3,7 +3,7 @@ Contributors: seballero
 Tags: subscription, e-mailing, mailing, emailing, mail, users
 Requires at least: 3.4
 Tested up to: 3.4.2
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,10 @@ Yes, using the function <code><?php if(function_exists('emailing_form')) { email
 1. The mailing list in the admin page.
 
 == Changelog ==
+
+= 1.2 =
+* Added "Show per page" pagination filter. 
+* Fixed pagination.
 
 = 1.1 =
 * Added Internationalization. 
