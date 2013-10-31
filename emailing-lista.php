@@ -4,7 +4,7 @@ Plugin Name: Emailing Subscription
 Plugin URI: http://www.seballero.com/blog/plugin-para-wordpress-e-mailing-subscription/
 Description: A simple WordPress plugin for e-mailing subscription list.
 Author: Sebastian Orellana
-Version: 1.2
+Version: 1.3
 Author URI: http://www.seballero.com 
 Text Domain: emailing-list
 Domain Path: /lang
@@ -374,7 +374,7 @@ function emailing() {?>
          <br/><br/>
          <?php
 global $wpdb;
-$pagination_count = $wpdb->get_var($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."emailinglist GROUP BY email"));
+$pagination_count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT email) FROM ".$wpdb->prefix."emailinglist"));
 if($pagination_count > 0) {
     //get current page
     $this_page = ($_GET['p'] && $_GET['p'] > 0)? (int) $_GET['p'] : 1;
@@ -413,7 +413,7 @@ if($pagination_count > 0) {
     $list_end = ($this_page * $per_page) - 1;
  
     //Get the data from the database
-    $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."emailinglist GROUP BY email LIMIT %d, %d", $list_start, $per_page));
+    $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."emailinglist GROUP BY email DESC LIMIT %d, %d", $list_start, $per_page));
 
     if($result) {        
          
