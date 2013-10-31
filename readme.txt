@@ -45,6 +45,9 @@ Yes, using the function <code><?php if(function_exists('emailing_form')) { email
 
 == Changelog ==
 
+= 1.3 =
+* Fixed pagination bug.
+
 = 1.2 =
 * Added "Show per page" pagination filter. 
 * Fixed pagination.
