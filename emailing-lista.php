@@ -4,20 +4,14 @@ Plugin Name: Emailing Subscription
 Plugin URI: http://www.seballero.com/blog/plugin-para-wordpress-e-mailing-subscription/
 Description: A simple WordPress plugin for e-mailing subscription list.
 Author: Sebastian Orellana
-Version: 1.3
+Version: 1.4
 Author URI: http://www.seballero.com 
 Text Domain: emailing-list
 Domain Path: /lang
 */
 
-
-
-/*---------------------------------------------------
-register settings
-----------------------------------------------------*/
 load_plugin_textdomain('emailing-list', false, basename( dirname( __FILE__ ) ) . '/lang' );
     
-
 function theme_settings_init(){
     global $plugin_page;
     if ( isset($_POST['exportar_xls']) && $plugin_page == 'emailing_list' ) {
@@ -29,7 +23,9 @@ function theme_settings_init(){
     echo "<table>
     <thead>    
     <tr>
-    <th>".__( 'Emailing List' .'' )."</th>
+    <th>".__( 'Name','emailing-list' )."</th>
+    <th>".__( 'Email','emailing-list' )."</th>
+    <th>".__( 'Reference','emailing-list' )."</th>         
     </tr>
     </thead>
     ";
@@ -39,11 +35,24 @@ function theme_settings_init(){
     foreach($result as $r)
     {
             echo "<tbody><tr>";
+            echo "<td>".$r->name."</td>";
             echo "<td>".$r->email."</td>";
+            echo "<td>".$r->reference."</td>";
             echo "</tr></tbody>";
     }
     echo "</table>";
     exit;
+    }
+    
+    if (isset($_POST['borrar_cont'])) {
+     
+        if($_POST['check']){
+         $cont_ids = $_POST['check'];
+         foreach($cont_ids as $cont_id){ 
+           global $wpdb;
+           $wpdb->query($wpdb->prepare("DELETE FROM ".$wpdb->prefix."emailinglist WHERE id = ".$cont_id));
+         }
+        } 
     }
     
     register_setting( 'theme_settings_page', 'theme_settings_page' );
@@ -78,6 +87,8 @@ function emailing_install() {
    $sql = "CREATE TABLE $table_name (
   id mediumint(9) NOT NULL AUTO_INCREMENT,
   time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  name varchar(89) NOT NULL,
+  reference varchar(89) NOT NULL,
   email varchar(89) NOT NULL,
   UNIQUE KEY id (id)
     );";
@@ -88,25 +99,124 @@ function emailing_install() {
    add_option( "emailing_db_version", $emailing_db_version );
 }
 
-function emailing_install_data($emaling) {
-   global $wpdb;
-   $table_name = $wpdb->prefix . "emailinglist";
-   $wpdb->insert( $table_name, array( 'time' => current_time('mysql'), 'email' => $emaling ) );
-   echo '<span class="mail-success">'.__( 'Your email was subscribed successfully.', 'emailing-list' ).'</span>';
+function emailing_install_data($name,$reference,$emaling) {
+  global $wpdb;
+  $table_name = $wpdb->prefix . "emailinglist";
    
+  $emailrepet = $wpdb->get_var( "SELECT COUNT(*) FROM ".$wpdb->prefix."emailinglist WHERE email LIKE '$emaling'");
+  
+  if(empty($name)){
+   echo '<span class="mail-error">'.__( 'Enter your name.', 'emailing-list' ).'</span>';       
+  }elseif($emailrepet==0){
+   $wpdb->insert( $table_name, array( 'time' => current_time('mysql'), 'name' => $name, 'reference' => $reference, 'email' => $emaling ) );
+   echo '<span class="mail-success">'.__( 'Your email was subscribed successfully.', 'emailing-list' ).'</span>'; 
+ 
+  }else{
+   echo '<span class="mail-error">'.__( 'Your email is already subscribed.', 'emailing-list' ).'</span>';       
+  }  
 }
 
-function emailing_form() {
+// Creating the widget 
+class mailing_list14_widget extends WP_Widget {
+
+function __construct() {
+parent::__construct(
+// Base ID of your widget
+'mailing_list14_widget', 
+
+// Widget name will appear in UI
+__('Emailing Subscription', 'emailing-list'), 
+
+// Widget description
+array( 'description' => __( 'Emailing Subscription Widget Form', 'emailing-list' ), ) 
+);
+}
+
+// Creating widget front-end
+// This is where the action happens
+public function widget( $args, $instance ) {
+$title = apply_filters( 'widget_title', $instance['title'] );
+// before and after widget arguments are defined by themes
+echo $args['before_widget'];
+if ( ! empty( $title ) )
+echo $args['before_title'] . $title . $args['after_title'];
+
+// This is where you run the code and display the output
+emailing_form(); 
+echo $args['after_widget'];
+}
+		
+// Widget Backend 
+public function form( $instance ) {
+if ( isset( $instance[ 'title' ] ) ) {
+$title = $instance[ 'title' ];
+}
+else {
+$title = __( 'New title', 'emailing-list' );
+}
+// Widget admin form
 ?>
-<form name="emailing" action="" method="post"  class="clear">
-    <input name="email" id="email" type="email" class="text" placeholder="<?php _e( 'Email Address', 'emailing-list' ) ?>"/>
-    <input type="submit" name="emailing-send" class="button" value="<?php _e( 'Subscribe', 'emailing-list' ) ?>"/>
+<p>
+<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+</p>
+<?php 
+}
+	
+// Updating widget replacing old instances with new
+public function update( $new_instance, $old_instance ) {
+$instance = array();
+$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+return $instance;
+}
+} // Class wpb_widget ends here
+
+// Register and load the widget
+function wpb_load_widget() {
+	register_widget( 'mailing_list14_widget' );
+}
+add_action( 'widgets_init', 'wpb_load_widget' );
+
+function emailing_form() {
+    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+?>
+<style type="text/css">
+    
+#mailing-14 .textin{
+	padding: 5px;
+	font-size: 13px;
+	border: 2px solid #ddd;
+}
+
+#mailing-14 .btn_submit{
+	padding: 5px 10px;
+	font-size: 13px;
+	background: #3fa9f5;
+	color: #fff;
+	border: 1px solid #3fa9f5;	
+}
+
+.widget_mailing_list14_widget #mailing-14 .textin{
+    display: block;
+    margin-bottom: 10px; 
+}
+
+</style>
+<form id="mailing-14" name="emailing" action="<?php echo $actual_link;?>#mailing-14" method="post" class="clear">
+    
+    <input name="name_mail" type="text" class="textin" placeholder="<?php _e( 'Name', 'emailing-list' ) ?>" > 
+
+    <input name="email_mail" id="email" type="email" class="textin" placeholder="<?php _e( 'Email Address', 'emailing-list' ) ?>"/>
+    
+    <input name="reference_mail" type="hidden" value="<?php the_title();?>">
+
+    <input class="btn_submit" type="submit" name="emailing-send" value="<?php _e( 'Subscribe', 'emailing-list' ) ?>" >
 </form>
 <?php
 
 if (isset($_POST['emailing-send'])) {
-         if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-             emailing_install_data($_POST['email']);
+         if (filter_var($_POST['email_mail'], FILTER_VALIDATE_EMAIL)) {
+             emailing_install_data($_POST['name_mail'],$_POST['reference_mail'],$_POST['email_mail']);
          }else{
              echo '<span class="mail-error">'.__( 'Email address seems invalid.', 'emailing-list' ).'</span>';
          } 
@@ -118,7 +228,7 @@ else {
 register_activation_hook( __FILE__, 'emailing_install' );
 
 
-class pagination {
+class pagination_mailing {
     /**
      *  Script Name: WP Style Pagination Class
      *  Created From: *Digg Style Paginator Class
@@ -218,7 +328,7 @@ class pagination {
  
     var $pagination;
  
-    function pagination() {
+    function pagination_mailing() {
  
     }
  
@@ -374,7 +484,7 @@ function emailing() {?>
          <br/><br/>
          <?php
 global $wpdb;
-$pagination_count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT email) FROM ".$wpdb->prefix."emailinglist"));
+$pagination_count = $wpdb->get_var("SELECT COUNT(DISTINCT email) FROM ".$wpdb->prefix."emailinglist");
 if($pagination_count > 0) {
     //get current page
     $this_page = ($_GET['p'] && $_GET['p'] > 0)? (int) $_GET['p'] : 1;
@@ -417,25 +527,37 @@ if($pagination_count > 0) {
 
     if($result) {        
          
-         
+        echo "<form name='borrar-conts' action='' method='post' ><table class='widefat'>"; 
         echo "<table class='widefat'>
         <thead>    
         <tr>
-        <th>".__( 'email', 'emailing-list' )."</th>
+        <th width='70px'>".__( 'Select', 'emailing-list' )."</th>
+        <th>".__( 'Date', 'emailing-list' )."</th>
+        <th>".__( 'Name', 'emailing-list' )."</th>
+        <th>".__( 'Email', 'emailing-list' )."</th>
+        <th>".__( 'Reference', 'emailing-list' )."</th>
         </tr>
         </thead>
         <tfoot>    
         <tr>
-        <th>".__( 'email', 'emailing-list' )."</th>
+        <th>".__( 'Select', 'emailing-list' )."</th>
+        <th>".__( 'Date', 'emailing-list' )."</th>
+        <th>".__( 'Name', 'emailing-list' )."</th>
+        <th>".__( 'Email', 'emailing-list' )."</th>
+        <th>".__( 'Reference', 'emailing-list' )."</th>
         </tr>
         </tfoot>";
         foreach($result as $r)
         {
                 echo "<tbody><tr>";
+                echo "<td><input type='checkbox' name='check[]' value='".$r->id."' /></td>";
+                echo "<td>".$r->time."</td>";
+                echo "<td>".$r->name."</td>";
                 echo "<td>".$r->email."</td>";
+                echo "<td>".$r->reference."</td>";
                 echo "</tr></tbody>";
         }
-        echo "</table>";?>
+        echo " </table><br/><br/><input type='hidden' name='borrar_cont' value='true' /><input type='submit' value='".__( 'delete selected', 'emailing-list' )."' class='button-primary' /></form> ";?>
         <div class="tablenav">
             <div class="tablenav-pages">
                 <span class="displaying-num"><?php echo $pagination_count; ?> items</span>

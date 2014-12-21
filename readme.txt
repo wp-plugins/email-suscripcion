@@ -2,8 +2,8 @@
 Contributors: seballero
 Tags: subscription, e-mailing, mailing, emailing, mail, users
 Requires at least: 3.4
-Tested up to: 3.4.2
-Stable tag: 1.2
+Tested up to: 4.1
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,7 +29,8 @@ Requirements:
 == Installation ==
 
 1. Install and activate the plugin
-2. Add the form function in your template <code><?php if(function_exists('emailing_form')) { emailing_form();} ?></code>
+2. Add this widget to your Sidebar.
+3. [OPTIONAL] Add the form function in your template <code><?php if(function_exists('emailing_form')) { emailing_form();} ?></code>
 4. [OPTIONAL] Apply custom styles
 5. YOU'RE DONE!
 
@@ -42,8 +43,14 @@ Yes, using the function <code><?php if(function_exists('emailing_form')) { email
 == Screenshots ==
 
 1. The mailing list in the admin page.
+2. The mailing list widget.
 
 == Changelog ==
+
+= 1.4 =
+* Added Widget option.
+* Added Delete Selected option.
+* Added Date, Name and Reference fields.
 
 = 1.3 =
 * Fixed pagination bug.
