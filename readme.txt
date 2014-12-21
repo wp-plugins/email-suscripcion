@@ -44,6 +44,7 @@ Yes, using the function <code><?php if(function_exists('emailing_form')) { email
 
 1. The mailing list in the admin page.
 2. The mailing list widget.
+3. The mailing list widget in widgets section.
 
 == Changelog ==
 
