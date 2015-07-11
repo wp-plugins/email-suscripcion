@@ -48,6 +48,9 @@ Yes, using the function <code><?php if(function_exists('emailing_form')) { email
 
 == Changelog ==
 
+= 1.4.1 =
+* Fixed fatal error in pagination
+
 = 1.4 =
 * Added Widget option.
 * Added Delete Selected option.
