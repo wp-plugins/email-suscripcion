@@ -4,7 +4,7 @@ Plugin Name: Emailing Subscription
 Plugin URI: http://www.seballero.com/blog/plugin-para-wordpress-e-mailing-subscription/
 Description: A simple WordPress plugin for e-mailing subscription list.
 Author: Sebastian Orellana
-Version: 1.4
+Version: 1.4.1
 Author URI: http://www.seballero.com 
 Text Domain: emailing-list
 Domain Path: /lang
@@ -499,7 +499,7 @@ if($pagination_count > 0) {
     $total_page = ceil($pagination_count/$per_page);
  
     //initiate the pagination variable
-    $pag = new pagination();
+    $pag = new pagination_mailing();
     //Set the pagination variable values
     $pag->Items($pagination_count);
     $pag->limit($per_page);
